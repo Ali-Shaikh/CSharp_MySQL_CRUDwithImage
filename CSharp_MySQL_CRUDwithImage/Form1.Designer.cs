@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtBoxID = new System.Windows.Forms.TextBox();
             this.btnLoad = new System.Windows.Forms.Button();
@@ -63,15 +64,18 @@
             this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mobile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.course = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.picLogo = new System.Windows.Forms.PictureBox();
+            this.btnForm2 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudent)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.btnForm2);
             this.groupBox1.Controls.Add(this.picLogo);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtBoxID);
@@ -100,6 +104,17 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Student Database";
+            // 
+            // picLogo
+            // 
+            this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
+            this.picLogo.Location = new System.Drawing.Point(504, 18);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(200, 218);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picLogo.TabIndex = 16;
+            this.picLogo.TabStop = false;
+            this.picLogo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.picLogo_MouseDoubleClick);
             // 
             // label8
             // 
@@ -389,15 +404,22 @@
             this.course.ReadOnly = true;
             this.course.Width = 65;
             // 
-            // picLogo
+            // btnForm2
             // 
-            this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
-            this.picLogo.Location = new System.Drawing.Point(504, 36);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(200, 200);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picLogo.TabIndex = 16;
-            this.picLogo.TabStop = false;
+            this.btnForm2.Location = new System.Drawing.Point(16, 213);
+            this.btnForm2.Name = "btnForm2";
+            this.btnForm2.Size = new System.Drawing.Size(75, 23);
+            this.btnForm2.TabIndex = 7;
+            this.btnForm2.Text = "Form2";
+            this.btnForm2.UseVisualStyleBackColor = true;
+            this.btnForm2.Click += new System.EventHandler(this.btnForm2_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(158, 30);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 7;
             // 
             // Form1
             // 
@@ -413,9 +435,9 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewStudent)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,6 +478,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn mobile;
         private System.Windows.Forms.DataGridViewTextBoxColumn course;
         private System.Windows.Forms.PictureBox picLogo;
+        private System.Windows.Forms.Button btnForm2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

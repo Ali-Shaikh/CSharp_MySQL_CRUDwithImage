@@ -223,6 +223,7 @@ namespace CSharp_MySQL_CRUDwithImage
             txtBoxCourse.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["course"].Value.ToString();
             comboBoxGender.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["gender"].Value.ToString();
             txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = true;
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -243,5 +244,30 @@ namespace CSharp_MySQL_CRUDwithImage
             }
             
         }
+
+        private void picLogo_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (txtBoxID.Enabled = Enabled)
+            {
+                var Name = txtBoxFName.Text;
+                MessageBox.Show(Name + "You clicked Image Box!");
+            }
+        }
+
+        private void btnForm2_Click(object sender, EventArgs e)
+        {
+            Form2 frm = new Form2(this);
+            //frm.Show();
+            this.Hide();
+            frm.ShowDialog();
+            this.Show();
+        }
+
+        public string LabelText
+        {
+            get { return textBox1.Text; }
+            set { textBox1.Text = value; }
+        }
+
     }
 }
