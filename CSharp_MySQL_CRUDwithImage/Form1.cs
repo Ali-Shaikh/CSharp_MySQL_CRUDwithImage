@@ -107,6 +107,7 @@ namespace CSharp_MySQL_CRUDwithImage
             comboBoxGender.SelectedIndex = 0;
             txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = false;
             location = null;
+            picLogo.Image = null;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
