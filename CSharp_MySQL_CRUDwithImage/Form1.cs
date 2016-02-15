@@ -33,16 +33,16 @@ namespace CSharp_MySQL_CRUDwithImage
             {
                 try
                 {
-                    //MySqlDataAdapter _adapter = new MySqlDataAdapter("SELECT `ID`, `First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender` FROM student_img", conn);
-                    MySqlDataAdapter _adapter = new MySqlDataAdapter("SELECT `ID`, `First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender` , `Image` FROM student_img", conn);
+                    MySqlDataAdapter _adapter = new MySqlDataAdapter("SELECT `ID`, `First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender` FROM student_img", conn);
+                    //MySqlDataAdapter _adapter = new MySqlDataAdapter("SELECT `ID`, `First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender` , `Image` FROM student_img", conn);
 
                     DataSet _dataset = new DataSet();
                     _adapter.Fill(_dataset, "table");
                     dataGridViewStudent.DataSource = _dataset;
                     dataGridViewStudent.DataMember = "table";
                     lblRecords.Text = dataGridViewStudent.Rows.Count.ToString();
-                    DataGridViewImageColumn Image = new DataGridViewImageColumn();
-                    Image = (DataGridViewImageColumn)dataGridViewStudent.Columns[7];
+                    //DataGridViewImageColumn Image = new DataGridViewImageColumn();
+                    //Image = (DataGridViewImageColumn)dataGridViewStudent.Columns[7];
                 }
                 catch (Exception ex)
                 {
@@ -106,6 +106,7 @@ namespace CSharp_MySQL_CRUDwithImage
                 = txtBoxCourse.Text = string.Empty;
             comboBoxGender.SelectedIndex = 0;
             txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = false;
+            location = null;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -202,22 +203,11 @@ namespace CSharp_MySQL_CRUDwithImage
                 }
             }
         }
-        //private void dataGridViewStudent_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    txtBoxID.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["id"].Value.ToString();
-        //    txtBoxFName.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["fname"].Value.ToString();
-        //    txtBoxLName.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["lname"].Value.ToString();
-        //    txtBoxEmail.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["email"].Value.ToString();
-        //    txtBoxMobile.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["mobile"].Value.ToString();
-        //    txtBoxCourse.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["course"].Value.ToString();
-        //    comboBoxGender.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["gender"].Value.ToString();
-
-        //    txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = true;
-        //}
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            updateData();
+            //updateData();
+            updateDatawithImage();
         }
 
         private void dataGridViewStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -270,7 +260,7 @@ namespace CSharp_MySQL_CRUDwithImage
             picLogo.Image = new Bitmap(openImageDialog.FileName);
             //storing the location of the pic in variable
             location = openImageDialog.FileName;
-           textBox1.Text = location;
+            textBox1.Text = location;
             //storing the filename of the pic in variable
             fileName = openImageDialog.SafeFileName;
 
@@ -306,7 +296,7 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void updateDatawithImage()
         {
-           
+
             using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
             {
                 try
@@ -314,7 +304,7 @@ namespace CSharp_MySQL_CRUDwithImage
                     string loadImage = location;
                     byte[] ImageData = imageToByteArray(loadImage);
 
-                    string CmdString = "Update `student_img` Set 'First Name' = @FirstName, `Last Name`= @LastName, `Email`= @Email, `Mobile`= @Mobile, `Course`= @Course,  `Gender`= @Gender, `Image`= @Image WHERE ID =  @ID";
+                    string CmdString = "Update `student_img` Set `First Name` = @FirstName, `Last Name`= @LastName, `Email`= @Email, `Mobile`= @Mobile, `Course`= @Course,  `Gender`= @Gender, `Image`= @Image WHERE ID =  @ID";
 
                     MySqlCommand cmd = new MySqlCommand(CmdString, conn);
                     cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
@@ -334,6 +324,8 @@ namespace CSharp_MySQL_CRUDwithImage
                     cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
                     cmd.Parameters["@Image"].Value = ImageData;
                     cmd.Parameters["@ID"].Value = int.Parse(txtBoxID.Text.Trim());
+
+                    conn.Open();
 
                     if (cmd.ExecuteNonQuery() != 0)
                     {
@@ -356,8 +348,8 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void InsertwithImage()
         {
-            
-            
+
+
 
             using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
             {
@@ -385,7 +377,7 @@ namespace CSharp_MySQL_CRUDwithImage
                     cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
                     cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
                     cmd.Parameters["@Image"].Value = ImageData;
-                    
+
                     conn.Open();
                     //MySqlCommand cmd = new MySqlCommand(cmd, conn);
                     if (cmd.ExecuteNonQuery() != 0)
