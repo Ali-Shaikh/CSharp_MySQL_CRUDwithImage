@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using CSharp_MySQL_CRUDwithImage.App_data;
+using System.IO;
 
 namespace CSharp_MySQL_CRUDwithImage
 {
@@ -137,7 +138,9 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            insertData();
+            //insertData();
+            InsertwithImage();
+
         }
 
         private void updateData()
@@ -263,10 +266,76 @@ namespace CSharp_MySQL_CRUDwithImage
             this.Show();
         }
 
-        public string LabelText
+        public string ImageLocation
         {
             get { return textBox1.Text; }
             set { textBox1.Text = value; }
+        }
+
+        //public string FileName
+        //{
+        //    get { return textBox1.Text; }
+        //    set { textBox1.Text = value; }
+        //}
+
+        private void InsertwithImage()
+        {
+            
+            FileStream fs;
+            BinaryReader br;
+            
+            using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
+            {
+                
+                try
+                {
+                    string loadImage = textBox1.Text;
+                    byte[] ImageData;
+                    fs = new FileStream(loadImage, FileMode.Open, FileAccess.Read);
+                    br = new BinaryReader(fs);
+                    ImageData = br.ReadBytes((int)fs.Length);
+                    br.Close();
+                    fs.Close();
+
+                    //string sql = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`) VALUES ('" + txtBoxFName.Text.Trim() + "','" + txtBoxLName.Text.Trim() + "','" + txtBoxEmail.Text.Trim() + "','" + txtBoxMobile.Text.Trim() + "','" + txtBoxCourse.Text.Trim() + "','" + comboBoxGender.Text + "')";
+
+                    string CmdString = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`, `Image`) VALUES (@FirstName, @LastName, @Email, @Mobile, @Course, @Gender, @Image)";
+                    MySqlCommand cmd = new MySqlCommand(CmdString, conn);
+
+                    cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
+                    cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
+                    cmd.Parameters.Add("@Image", MySqlDbType.Blob);
+
+                    cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
+                    cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
+                    cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
+                    cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
+                    cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
+                    cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
+                    cmd.Parameters["@Image"].Value = ImageData;
+
+                    conn.Open();
+                    //MySqlCommand cmd = new MySqlCommand(cmd, conn);
+                    if (cmd.ExecuteNonQuery() != 0)
+                    {
+                        MessageBox.Show("Record Added Successfuly.", "Information Message",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        reset();
+                        LoadData();
+                        //getTotalStudents();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error Occurred!\n" + ex.Message, "Error Message",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
 
     }

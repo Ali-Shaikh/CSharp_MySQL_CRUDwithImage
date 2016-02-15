@@ -46,12 +46,14 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            this.mainForm.LabelText = txtBoxImgPath.Text;
+            this.mainForm.ImageLocation = txtBoxImgPath.Text;
+            //this.mainForm.FileName = fileName;
             this.Hide();
+            
         }
 
-        //The String used to store the location of the file that is currently loaded in the picture box picFile
-        String location;
+            //The String used to store the location of the file that is currently loaded in the picture box picFile
+            String location;
 
         //The String used to store the name of the file that is currently loaded in the picture box picFile
         String fileName;
@@ -61,7 +63,8 @@ namespace CSharp_MySQL_CRUDwithImage
             //Showing the fileopen dialog box
             openFileDialogImage.ShowDialog();
             //showing the image opened in the picturebox
-            pictureBox1.BackgroundImage = new Bitmap(openFileDialogImage.FileName);
+            //pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBox1.Image = new Bitmap(openFileDialogImage.FileName);
             //storing the location of the pic in variable
             location = openFileDialogImage.FileName;
             txtBoxImgPath.Text = location;
