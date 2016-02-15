@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnForm2 = new System.Windows.Forms.Button();
@@ -66,6 +65,7 @@
             this.email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mobile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.course = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openImageDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -111,6 +111,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 7;
+            this.textBox1.Visible = false;
             // 
             // btnForm2
             // 
@@ -120,15 +121,17 @@
             this.btnForm2.TabIndex = 7;
             this.btnForm2.Text = "Form2";
             this.btnForm2.UseVisualStyleBackColor = true;
+            this.btnForm2.Visible = false;
             this.btnForm2.Click += new System.EventHandler(this.btnForm2_Click);
             // 
             // picLogo
             // 
-            this.picLogo.Image = ((System.Drawing.Image)(resources.GetObject("picLogo.Image")));
+            this.picLogo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picLogo.ImageLocation = "";
             this.picLogo.Location = new System.Drawing.Point(504, 18);
             this.picLogo.Name = "picLogo";
             this.picLogo.Size = new System.Drawing.Size(200, 218);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLogo.TabIndex = 16;
             this.picLogo.TabStop = false;
             this.picLogo.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.picLogo_MouseDoubleClick);
@@ -421,6 +424,10 @@
             this.course.ReadOnly = true;
             this.course.Width = 65;
             // 
+            // openImageDialog
+            // 
+            this.openImageDialog.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -480,6 +487,7 @@
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.Button btnForm2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.OpenFileDialog openImageDialog;
     }
 }
 
