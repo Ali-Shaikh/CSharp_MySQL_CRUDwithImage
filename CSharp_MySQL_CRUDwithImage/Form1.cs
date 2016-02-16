@@ -42,8 +42,8 @@ namespace CSharp_MySQL_CRUDwithImage
                     dataGridViewStudent.DataSource = _dataset;
                     dataGridViewStudent.DataMember = "table";
                     lblRecords.Text = dataGridViewStudent.Rows.Count.ToString();
-                    //DataGridViewImageColumn Image = new DataGridViewImageColumn();
-                    //Image = (DataGridViewImageColumn)dataGridViewStudent.Columns[7];
+
+
                 }
                 catch (Exception ex)
                 {
@@ -253,7 +253,6 @@ namespace CSharp_MySQL_CRUDwithImage
 
         }
 
-
         //The String used to store the location of the file that is currently loaded in the picture box picFile
         String location;
 
@@ -274,14 +273,6 @@ namespace CSharp_MySQL_CRUDwithImage
             textBox1.Text = location;
             //storing the filename of the pic in variable
             fileName = openImageDialog.SafeFileName;
-
-            //if (txtBoxID.Enabled = Enabled)
-            //{
-            //    var Name = txtBoxFName.Text;
-            //    MessageBox.Show(Name + "You clicked Image Box!");
-            //}
-
-
         }
 
         private void btnForm2_Click(object sender, EventArgs e)
@@ -405,31 +396,31 @@ namespace CSharp_MySQL_CRUDwithImage
 
                 try
                 {
-                    
-                        string loadImage = location;
-                        byte[] ImageData = imageToByteArray(loadImage);
 
-                        string CmdString = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`, `Image`) VALUES (@FirstName, @LastName, @Email, @Mobile, @Course, @Gender, @Image)";
+                    string loadImage = location;
+                    byte[] ImageData = imageToByteArray(loadImage);
 
-                        MySqlCommand cmd = new MySqlCommand(CmdString, conn);
-                        cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
-                        cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
-                        cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
-                        cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
-                        cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
-                        cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
-                        cmd.Parameters.Add("@Image", MySqlDbType.Blob);
+                    string CmdString = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`, `Image`) VALUES (@FirstName, @LastName, @Email, @Mobile, @Course, @Gender, @Image)";
 
-                        cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
-                        cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
-                        cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
-                        cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
-                        cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
-                        cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
-                        cmd.Parameters["@Image"].Value = ImageData;
+                    MySqlCommand cmd = new MySqlCommand(CmdString, conn);
+                    cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
+                    cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
+                    cmd.Parameters.Add("@Image", MySqlDbType.Blob);
 
-                        conn.Open();
-                    
+                    cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
+                    cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
+                    cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
+                    cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
+                    cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
+                    cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
+                    cmd.Parameters["@Image"].Value = ImageData;
+
+                    conn.Open();
+
                     //MySqlCommand cmd = new MySqlCommand(cmd, conn);
                     if (cmd.ExecuteNonQuery() != 0)
                     {
@@ -439,7 +430,7 @@ namespace CSharp_MySQL_CRUDwithImage
                         LoadData();
                         //getTotalStudents();
                     }
-                  
+
                 }
                 catch (Exception ex)
                 {
@@ -535,10 +526,18 @@ namespace CSharp_MySQL_CRUDwithImage
                     {
                         byte[] img = (byte[])dt.Rows[0][0];
                         MemoryStream ms = new MemoryStream(img);
-                        picLogo.Image = Image.FromStream(ms);
-                        da.Dispose();
-                        result = true;
 
+                        if (ms.Length == 0)
+                        {
+                            picLogo.ImageLocation = "https://placeholdit.imgix.net/~text?txtsize=40&bg=262835&txtclr=ffffff&txt=Image+Not+Available&w=200&h=218";
+                        }
+
+                        else {
+
+                            picLogo.Image = Image.FromStream(ms);
+                            da.Dispose();
+                            result = true;
+                            }
                     }
 
                 }
