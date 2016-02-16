@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using CSharp_MySQL_CRUDwithImage.App_data;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace CSharp_MySQL_CRUDwithImage
 {
@@ -213,6 +214,7 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void dataGridViewStudent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            reset();
             txtBoxID.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["id"].Value.ToString();
             txtBoxFName.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["fname"].Value.ToString();
             txtBoxLName.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["lname"].Value.ToString();
@@ -220,6 +222,12 @@ namespace CSharp_MySQL_CRUDwithImage
             txtBoxMobile.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["mobile"].Value.ToString();
             txtBoxCourse.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["course"].Value.ToString();
             comboBoxGender.Text = dataGridViewStudent.Rows[e.RowIndex].Cells["gender"].Value.ToString();
+            if (getImage(txtBoxID.Text))
+            {
+                getImage(txtBoxID.Text);
+            }
+
+            //getImage(txtBoxID.Text);
             txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = true;
 
         }
@@ -418,6 +426,91 @@ namespace CSharp_MySQL_CRUDwithImage
             return photo;
 
         }
+
+        private void getImage_other()
+        {
+            using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT Image FROM student_img WHERE ID =  @ID";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                    //int id = 10;
+                    cmd.Parameters.AddWithValue("@ID", int.Parse(txtBoxID.Text.Trim()));
+
+                    var da = new MySqlDataAdapter(cmd);
+                    var ds = new DataSet();
+                    da.Fill(ds, "Image");
+                    int count = ds.Tables["Image"].Rows.Count;
+
+                    if (count > 0)
+                    {
+                        var data = (Byte[])(ds.Tables["Image"].Rows[count - 1]["Image"]);
+                        var stream = new MemoryStream(data);
+                        picLogo.Image = Image.FromStream(stream);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Connection Error!\n" + ex.Message, "Error Message",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
+        private Boolean getImage(String ID)
+        {
+            Boolean result = false;
+            using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
+            {
+                try
+                {
+                    var id = int.Parse(ID);
+                    conn.Open();
+
+                    string query = "SELECT Image FROM student_img WHERE ID =  @ID";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+
+                    cmd.Parameters.AddWithValue("@ID", id);
+
+                    var da = new MySqlDataAdapter(cmd);
+
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    //textBoxID.Text = dt.Rows[0][0].ToString();
+                    //textBoxNAME.Text = dt.Rows[0][1].ToString();
+                    //textBoxDescription.Text = dt.Rows[0][2].ToString();
+                    //set image from mysql database to pictureBox
+                    int count = dt.Rows.Count;
+                    if (count > 0)
+                    {
+                        byte[] img = (byte[])dt.Rows[0][0];
+                        MemoryStream ms = new MemoryStream(img);
+                        picLogo.Image = Image.FromStream(ms);
+                        da.Dispose();
+                        result = true;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error in getImage\n" + ex.Message, "Error Message",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
+                }
+            }
+            return result;
+        }
+
 
     }
 }
