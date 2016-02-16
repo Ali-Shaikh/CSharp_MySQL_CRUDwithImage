@@ -47,7 +47,7 @@ namespace CSharp_MySQL_CRUDwithImage
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Connection Error!\n" + ex.Message, "Error Message",
+                    MessageBox.Show("Error!\n" + ex.Message, "Error Message",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -225,6 +225,8 @@ namespace CSharp_MySQL_CRUDwithImage
             if (getImage(txtBoxID.Text))
             {
                 getImage(txtBoxID.Text);
+                //location = textBox1.Text;
+
             }
 
             //getImage(txtBoxID.Text);
@@ -310,42 +312,80 @@ namespace CSharp_MySQL_CRUDwithImage
             {
                 try
                 {
-                    string loadImage = location;
-                    byte[] ImageData = imageToByteArray(loadImage);
-
-                    string CmdString = "Update `student_img` Set `First Name` = @FirstName, `Last Name`= @LastName, `Email`= @Email, `Mobile`= @Mobile, `Course`= @Course,  `Gender`= @Gender, `Image`= @Image WHERE ID =  @ID";
-
-                    MySqlCommand cmd = new MySqlCommand(CmdString, conn);
-                    cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
-                    cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
-                    cmd.Parameters.Add("@Image", MySqlDbType.Blob);
-                    cmd.Parameters.Add("@ID", MySqlDbType.Int32, 4);
-
-                    cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
-                    cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
-                    cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
-                    cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
-                    cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
-                    cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
-                    cmd.Parameters["@Image"].Value = ImageData;
-                    cmd.Parameters["@ID"].Value = int.Parse(txtBoxID.Text.Trim());
-
-                    conn.Open();
-
-                    if (cmd.ExecuteNonQuery() != 0)
+                    if (location != null)
                     {
-                        MessageBox.Show("Record Updated Successfuly.", "Information Message",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        reset();
-                        LoadData();
-                        //getTotalStudents();
-                        //txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = false;
+                        string loadImage = location;
+                        byte[] ImageData = imageToByteArray(loadImage);
+
+                        string CmdString = "Update `student_img` Set `First Name` = @FirstName, `Last Name`= @LastName, `Email`= @Email, `Mobile`= @Mobile, `Course`= @Course,  `Gender`= @Gender, `Image`= @Image WHERE ID =  @ID";
+
+                        MySqlCommand cmd = new MySqlCommand(CmdString, conn);
+                        cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
+                        cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
+                        cmd.Parameters.Add("@Image", MySqlDbType.Blob);
+                        cmd.Parameters.Add("@ID", MySqlDbType.Int32, 4);
+
+                        cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
+                        cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
+                        cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
+                        cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
+                        cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
+                        cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
+                        cmd.Parameters["@Image"].Value = ImageData;
+                        cmd.Parameters["@ID"].Value = int.Parse(txtBoxID.Text.Trim());
+
+                        conn.Open();
+
+                        if (cmd.ExecuteNonQuery() != 0)
+                        {
+                            MessageBox.Show("Record Updated Successfuly.", "Information Message",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            reset();
+                            LoadData();
+                            //getTotalStudents();
+                            //txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = false;
+                        }
                     }
 
+                    else
+                    {
+                        string CmdString = "Update `student_img` Set `First Name` = @FirstName, `Last Name`= @LastName, `Email`= @Email, `Mobile`= @Mobile, `Course`= @Course, `Gender`= @Gender WHERE ID =  @ID";
+
+                        MySqlCommand cmd = new MySqlCommand(CmdString, conn);
+                        cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
+                        cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
+                        cmd.Parameters.Add("@Image", MySqlDbType.Blob);
+                        cmd.Parameters.Add("@ID", MySqlDbType.Int32, 4);
+
+                        cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
+                        cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
+                        cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
+                        cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
+                        cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
+                        cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
+                        cmd.Parameters["@ID"].Value = int.Parse(txtBoxID.Text.Trim());
+
+                        conn.Open();
+
+                        if (cmd.ExecuteNonQuery() != 0)
+                        {
+                            MessageBox.Show("Record Updated Successfuly.", "Information Message",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            reset();
+                            LoadData();
+                            //getTotalStudents();
+                            //txtBoxID.Enabled = btnDelete.Enabled = btnUpdate.Enabled = false;
+                        }
+
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -365,29 +405,31 @@ namespace CSharp_MySQL_CRUDwithImage
 
                 try
                 {
-                    string loadImage = location;
-                    byte[] ImageData = imageToByteArray(loadImage);
+                    
+                        string loadImage = location;
+                        byte[] ImageData = imageToByteArray(loadImage);
 
-                    string CmdString = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`, `Image`) VALUES (@FirstName, @LastName, @Email, @Mobile, @Course, @Gender, @Image)";
+                        string CmdString = "INSERT INTO `student_img` (`First Name`, `Last Name`, `Email`, `Mobile`, `Course`, `Gender`, `Image`) VALUES (@FirstName, @LastName, @Email, @Mobile, @Course, @Gender, @Image)";
 
-                    MySqlCommand cmd = new MySqlCommand(CmdString, conn);
-                    cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
-                    cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
-                    cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
-                    cmd.Parameters.Add("@Image", MySqlDbType.Blob);
+                        MySqlCommand cmd = new MySqlCommand(CmdString, conn);
+                        cmd.Parameters.Add("@FirstName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@LastName", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Email", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Mobile", MySqlDbType.VarChar, 11);
+                        cmd.Parameters.Add("@Course", MySqlDbType.VarChar, 255);
+                        cmd.Parameters.Add("@Gender", MySqlDbType.Enum);
+                        cmd.Parameters.Add("@Image", MySqlDbType.Blob);
 
-                    cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
-                    cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
-                    cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
-                    cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
-                    cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
-                    cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
-                    cmd.Parameters["@Image"].Value = ImageData;
+                        cmd.Parameters["@FirstName"].Value = txtBoxFName.Text;
+                        cmd.Parameters["@LastName"].Value = txtBoxLName.Text;
+                        cmd.Parameters["@Email"].Value = txtBoxEmail.Text;
+                        cmd.Parameters["@Mobile"].Value = txtBoxMobile.Text;
+                        cmd.Parameters["@Course"].Value = txtBoxCourse.Text;
+                        cmd.Parameters["@Gender"].Value = comboBoxGender.Text;
+                        cmd.Parameters["@Image"].Value = ImageData;
 
-                    conn.Open();
+                        conn.Open();
+                    
                     //MySqlCommand cmd = new MySqlCommand(cmd, conn);
                     if (cmd.ExecuteNonQuery() != 0)
                     {
@@ -397,7 +439,7 @@ namespace CSharp_MySQL_CRUDwithImage
                         LoadData();
                         //getTotalStudents();
                     }
-
+                  
                 }
                 catch (Exception ex)
                 {
