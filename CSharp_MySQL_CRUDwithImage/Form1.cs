@@ -180,7 +180,7 @@ namespace CSharp_MySQL_CRUDwithImage
 
         private void deleteData()
         {
-            string sql = "DELETE FROM `student` WHERE ID = " + int.Parse(txtBoxID.Text.Trim());
+            string sql = "DELETE FROM `student_img` WHERE ID = " + int.Parse(txtBoxID.Text.Trim());
             using (MySqlConnection conn = new MySqlConnection(connectionManager.connectionString))
             {
                 try
@@ -264,15 +264,18 @@ namespace CSharp_MySQL_CRUDwithImage
 
             openImageDialog.Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|Gif Image|*.gif|PNG Image|*.png";
             //Showing the fileopen dialog box
-            openImageDialog.ShowDialog();
+            DialogResult result = openImageDialog.ShowDialog();
             //showing the image opened in the picturebox
             //pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-            picLogo.Image = new Bitmap(openImageDialog.FileName);
-            //storing the location of the pic in variable
-            location = openImageDialog.FileName;
-            textBox1.Text = location;
-            //storing the filename of the pic in variable
-            fileName = openImageDialog.SafeFileName;
+            if (result == DialogResult.OK) // Test result.
+            {
+                picLogo.Image = new Bitmap(openImageDialog.FileName);
+                //storing the location of the pic in variable
+                location = openImageDialog.FileName;
+                textBox1.Text = location;
+                //storing the filename of the pic in variable
+                fileName = openImageDialog.SafeFileName;
+            }
         }
 
         private void btnForm2_Click(object sender, EventArgs e)
