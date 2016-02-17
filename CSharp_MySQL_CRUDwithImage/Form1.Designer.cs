@@ -346,6 +346,9 @@
             // 
             this.dataGridViewStudent.AllowUserToAddRows = false;
             this.dataGridViewStudent.AllowUserToDeleteRows = false;
+            this.dataGridViewStudent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewStudent.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewStudent.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataGridViewStudent.ColumnHeadersHeight = 21;
